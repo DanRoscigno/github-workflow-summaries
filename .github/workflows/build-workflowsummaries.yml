@@ -31,7 +31,7 @@ jobs:
       - name: Build website
         run:  |
           export NODE_OPTIONS="--max_old_space_size=4096"
-          yarn build
+          yarn build >> $GITHUB_STEP_SUMMARY
 
       - name: Restore the cached htmltest results
         uses: actions/cache/restore@v3
