@@ -45,7 +45,9 @@ jobs:
       - name: install htmltest
         run: curl https://htmltest.wjdp.uk | bash
       - name: test links
-        run: ./bin/htmltest -c ../htmltest.yml >> $GITHUB_STEP_SUMMARY
+        run: ./bin/htmltest -c ../htmltest.yml
+      - name: report test
+        run: cat ./tmp/.htmltest/htmltest.log >> $GITHUB_STEP_SUMMARY
 
       - name: Store cache
         if: always() && (steps.restore-cache.outputs.cache-hit != 'true')
