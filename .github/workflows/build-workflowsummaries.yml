@@ -1,0 +1,54 @@
+name: build-workflowsummaries
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: 'docusaurus'
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+          cache-dependency-path: 'yarn.lock'
+      
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+          
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          yarn install --frozen-lockfile
+      
+      - name: Build website
+        run:  |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          yarn build
+
+      - name: Restore the cached htmltest results
+        uses: actions/cache/restore@v3
+        id: restore-cache
+        with:
+          path: tmp/.htmltest
+          key: htmltest-${{ hashFiles('docs/**/*.md') }}
+          restore-keys: |
+            htmltest-
+
+      - name: Run htmltest
+        uses: wjdp/htmltest-action@master
+        with:
+          config: htmltest.yml
+
+      - name: Store cache
+        if: always() && (steps.restore-cache.outputs.cache-hit != 'true')
+        uses: actions/cache/save@v3
+        with:
+          path: tmp/.htmltest
+          key: htmltest-${{ hashFiles('docs/**/*.md') }}
