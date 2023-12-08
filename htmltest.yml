@@ -1,4 +1,4 @@
-DirectoryPath: workflowsummaries/build/
+DirectoryPath: build/
 CheckExternal: false
 CheckInternal: true
 CheckInternalHash: false
