@@ -43,9 +43,9 @@ jobs:
             htmltest-
 
       - name: Run htmltest
-        uses: wjdp/htmltest-action@master
-        with:
-          config: htmltest.yml
+        run: |
+          curl https://htmltest.wjdp.uk | bash
+          ./bin/htmltest -c ../htmltest.conf >> $GITHUB_STEP_SUMMARY
 
       - name: Store cache
         if: always() && (steps.restore-cache.outputs.cache-hit != 'true')
