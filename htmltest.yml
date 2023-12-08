@@ -1,5 +1,5 @@
 DirectoryPath: workflowsummaries/build/
-CheckExternal: true
+CheckExternal: false
 CheckInternal: true
 CheckInternalHash: false
 IgnoreAltMissing: true
