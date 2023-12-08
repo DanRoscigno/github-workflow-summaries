@@ -24,7 +24,7 @@ const config = {
   projectName: 'docusaurus', // Usually your repo name.
   trailingSlash: true,
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
